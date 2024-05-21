@@ -1,12 +1,14 @@
 const express = require("express");
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 const cors = require('cors');
 const { chats } = require("./data/data");
+const connectDB = require("./config/db");
 
 const app = express();
-dotenv.config();
-
+// node --env-file .env ./backend/server.js use this command for latest veresion of node
+connectDB(); 
 const PORT = process.env.PORT || 8000;
+console.log(process.env.PORT)
 
 app.use(cors());
   
