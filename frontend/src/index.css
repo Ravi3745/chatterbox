@@ -1,0 +1,23 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body{
+  background-image: url(https://w0.peakpx.com/wallpaper/818/148/HD-wallpaper-whatsapp-background-cool-dark-green-new-theme-whatsapp.jpg);
+} */
+
+body{
+  width: 100%;
+  /* background-color: rgb(15, 218, 218); */
+  
+}
+#root{
+  width: 100%;
+  
+}
+
+
+
+
+
