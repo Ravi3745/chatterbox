@@ -3,28 +3,28 @@ const express = require("express");
 const cors = require('cors');
 const { chats } = require("./data/data");
 const connectDB = require("./config/db");
-
+const userRoutes = require('./Routes/userRoutes');
+const {errorHandler,notFound} = require('./middleware.js/errorMiddleware');
 const app = express();
 // node --env-file .env ./backend/server.js use this command for latest veresion of node
 connectDB(); 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 console.log(process.env.PORT)
 
 app.use(cors());
-  
+
+// for parsing the data comming from front end;
+app.use(express.json());
+
+
 app.get('/',(req,res)=>{
     res.send("hii in node")
 });
 
-app.get('/chats',(req,res)=>{
-    res.status(200).send(chats);
-});
+app.use('/user',userRoutes);
 
-app.get('/chats/:id',(req,res)=>{
-    console.log(req.params.id);
-    const chat=chats.find(c=>c._id===req.params.id);
-    res.send(chat);
-})
+app.use(notFound);
+app.use(errorHandler)
 app.listen(PORT,()=>{
     console.log(`server is up and running ${PORT}`);
 });

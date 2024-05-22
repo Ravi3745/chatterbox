@@ -1,20 +1,90 @@
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from "react";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import Spinner from '../../utilities/Spinner';
 
 const Signup = () => {
-  
-  const [signUpData,setSignUpData] = useState({email:"",password:"",confirmPassword:"",pic:""})
+  const history = useHistory();
+  const [signUpData,setSignUpData] = useState({name:"",email:"",password:"",confirmPassword:"",pic:""})
   const [showPassword,setShowPassword]= useState(false);
-
-  function handleSubmit(e){
+  const [loading, setLoading] = useState(false); 
+  
+  async function handleSubmit  (e){
     e.preventDefault();
-    console.log(signUpData);
+    if(signUpData.password!==signUpData.confirmPassword){
+      toast("password is not matching");
+      return;
+    }
+    setLoading(true);
+    const {name, email, password,pic} = signUpData;
+    try {
+      const config={
+        headers:{
+          "Content-type":"application/json"
+        }
+      }
+
+      const {data} = await axios.post('http://localhost:8000/user',{
+        name,email,password,pic
+      },config);
+      toast("Signup successful");
+      localStorage.setItem("userInfo",JSON.stringify(data));
+      setLoading(false);
+      history.push('./chats');
+    } catch (error) {
+      toast(error);
+      setLoading(false);
+    }
+    setSignUpData({name:"",email:"",password:"",confirmPassword:"",pic:""});
+    
   }
+
+
 
   function togglePasswordVisibility(){
     setShowPassword(!showPassword);
   }
+
+  function profilePicUpload(pic) {
+    setLoading(true);
+    if (!pic) {
+      toast("no picture selected");
+      return;
+    }
+    if (pic.type === 'image/jpeg' || pic.type === 'image/png') { 
+      const data = new FormData();
+      data.append('file', pic);
+      data.append("upload_preset", "Chatter-box"); 
+      data.append("cloud_name", "chatterbox37"); 
+  
+      fetch("https://api.cloudinary.com/v1_1/chatterbox37/image/upload", { 
+        method: "POST",
+        body: data
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data); 
+          setSignUpData({ ...signUpData, pic: data.secure_url });
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error uploading image: ', error);
+          toast("Error uploading image");
+          setLoading(false);
+        });
+    }else {
+      toast("Unsupported file format. Please upload a JPG or PNG file.");
+      setLoading(false);
+      return;
+    }
+  
+  }
+  
+
   return (
    <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -27,6 +97,24 @@ const Signup = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6"  onSubmit={handleSubmit}>
+            
+          <div>
+              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                Name
+              </label>
+              <div className="mt-2">
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  value={signUpData.name}
+                  onChange={(e)=>setSignUpData({...signUpData,name:e.target.value})}
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2"
+                />
+              </div>
+            </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
@@ -107,10 +195,10 @@ const Signup = () => {
               name="profile_pic"
               type="file"
               autoComplete="profile_pic"
-              required
+              // required
               accept='/image/*'
-              value={signUpData.pic}
-              onChange={(e)=>setSignUpData({...signUpData,pic:e.target.files[0]})}
+              
+              onChange={(e)=>profilePicUpload(e.target.files[0])}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-2"
             />
             
@@ -121,10 +209,11 @@ const Signup = () => {
 
             <div>
               <button
+                disabled={loading}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                {loading?<Spinner />:"Signin"}
               </button>
             </div>
           </form>
