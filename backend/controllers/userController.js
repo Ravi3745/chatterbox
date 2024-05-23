@@ -62,10 +62,28 @@ const authUser = asyncHandler(async(req,res)=>{
         res.status(200).json({
             _id:user._id,
             name:user.name,
-            email:user.email
+            email:user.email, 
+            
+            token:generateToken(user._id)
         });
     }
+});
+// /user?search=ravi
+const allUsers = asyncHandler(async (req,res)=>{
+    const keyword = req.query.search?
+   { $or:[
+        {name:{$regex: req.query.search,$options: "i"}},
+        {email:{$regex: req.query.search,$options: "i"}}
+    ]}:{}
+
+
+    // finding user other than present user who is authorized
+    const users = await User.find(keyword).find({_id:{$ne:req.user._id}});
+    res.send(users);
+
+    console.log(keyword)
+    res.send(keyword);
 })
 
 
-module.exports = {registerUser,authUser};
+module.exports = {registerUser,authUser, allUsers};
