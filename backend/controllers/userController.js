@@ -57,15 +57,17 @@ const authUser = asyncHandler(async(req,res)=>{
         
     }
     const validPassword = await bcryptjs.compare(password,user.password);
-
+    console.log('yes in user auth password validated')
     if(validPassword){
-        res.status(200).json({
+        res.status(200).send({
             _id:user._id,
             name:user.name,
             email:user.email, 
-            
+            pic:user.pic,
             token:generateToken(user._id)
         });
+    }else{
+        throw new Error('password not match something went wrong')
     }
 });
 // /user?search=ravi

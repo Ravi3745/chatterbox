@@ -30,6 +30,8 @@ const Login = () => {
       console.log("hloo2")
       const { data } = await axios.post('http://localhost:8000/user/login',{email,password},config);
       toast("Login Successful");
+      
+      // storing response in localstorage of browser
       localStorage.setItem("userInfo",JSON.stringify(data));
       setLoading(false);
       history.push('/chats');

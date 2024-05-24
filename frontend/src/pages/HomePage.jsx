@@ -2,10 +2,17 @@
 import Login from '../components/Authentication/Login';
 import Signup from '../components/Authentication/Signup';
 import '../App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 export default function HomePage() {
   const [isLoginPage, setIsLoginPage] = useState(true);
   
+  const history = useHistory();
+// if user already login push redirect him to the chats page
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if(user) history.push('/chats');
+  },[history])
   return (
     <>
     <div className='flex flex-col items-center justify-center '>
