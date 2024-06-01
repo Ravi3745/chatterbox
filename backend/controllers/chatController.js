@@ -3,7 +3,7 @@ const { Chat } = require('../models/chatSchema');
 const { User } = require("../models/userSchema");
 
 
-
+// access chats
 const accessChat = expressAsyncHandler(async (req, res) => {
     
     
@@ -74,6 +74,7 @@ const getChats = expressAsyncHandler(async (req, res) => {
 });
 
 
+// creating group chat
 const createGroupChat = expressAsyncHandler(async (req, res) => {
     if (!req.body.users || !req.body.name) {
         return res.status(400).send({ message: "please fill all details" });
@@ -104,6 +105,8 @@ const createGroupChat = expressAsyncHandler(async (req, res) => {
     }
 });
 
+
+// rename group 
 const renameGroup  = expressAsyncHandler(async(req,res)=>{
     const {chatId, chatName} = req.body;
 
@@ -119,6 +122,8 @@ const renameGroup  = expressAsyncHandler(async(req,res)=>{
     }
 });
 
+
+// add user to group
 const addToGroup = expressAsyncHandler(async (req,res)=>{
     const {chatId,userId} = req.body;
 
@@ -139,7 +144,7 @@ const addToGroup = expressAsyncHandler(async (req,res)=>{
 });
 
 
-
+// remove user from group
 const removeFromGroup = expressAsyncHandler(async (req,res)=>{
     const {chatId,userId} = req.body;
     console.log("iam here in ")

@@ -1,6 +1,4 @@
 export default function SearchList({ searchResults, accessChat, groupModal, handleGroup }) {
-  
-  
   return (
     <ul role="list" className="divide-y divide-gray-100">
       {searchResults.map((person) => (

@@ -22,6 +22,7 @@ body{
   grid-template-rows: auto 2fr; /* Two rows: navbar, chat section */
   grid-template-columns: 1fr 2fr; /* Two columns: navbar, chat section */
   height: 100vh;
+  
 }
 
 .navbar {
@@ -40,6 +41,7 @@ body{
   grid-column: 1; /* Second column */
   display: grid;
   grid-template-columns: 1fr 2fr; /* Two columns: chats section and chat box */
+ 
 }
 
 .chats-section {

@@ -7,7 +7,7 @@ import axios from 'axios';
 import GroupChatModal from '../miscellaneous/GroupChatModal';
 
 
-export default function ChatsSection({fetchChats}) {
+export default function ChatsSection({fetchAgain}) {
 
   const [loggedUser, setloggedUser] = useState(null);
   
@@ -41,7 +41,7 @@ export default function ChatsSection({fetchChats}) {
   useEffect(()=>{
     setloggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  },[fetchChats])
+  },[fetchAgain])
 
   return (
     <div className='bg-green-900 h-full text-white' >
