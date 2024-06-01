@@ -5,35 +5,94 @@ import ProfileModal from '../miscellaneous/ProfileModal';
 import React, { useState } from 'react'
 import { ChatState } from '../context/ChatContextProvider';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import SideOver from './SideOver';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 export default function NavBar() {
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [loading,setLoading] = useState(false);
     const [loadingChat, setLoadingChat] = useState();
     const [showModal, setShowModal] =useState(false);
+    const [open, setOpen] = useState(false)
+    
 
 
     const history = useHistory();
 
-    const {user} = ChatState();
+    const {user, setSelectedChat, chats, setChats} = ChatState();
 
     const signOutHandler=()=>{
       localStorage.removeItem("userInfo");
       history.push('/');
     }
 
+
+    const handleSearch = async () => {
+      
+
+      if (!search || search.trim().length === 0) {
+        toast("Enter a name to search");
+        return; // Exit early if search is empty
+      }
+    // console.log(search);
+      try {
+        setLoading(true); // Set loading to true
+    
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        };
+    
+        const { data } = await axios.get(`http://localhost:8000/user?search=${search}`, config);
+        // console.log(data, "search results");
+        setSearchResults(data);
+      } catch (error) {
+        console.error(error);
+        toast("Something went wrong");
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or failure
+      }
+    };
+
+    const accessChat = async (userId)=>{
+        
+      try{
+
+        console.log('in axxess chat')
+          setLoadingChat(true);
+          
+          const config = {
+            headers: {
+              "Content-type":"application/json",
+              Authorization: `Bearer ${user.token}`
+            }
+          };
+
+          const {data} = await axios.post("http://localhost:8000/chat",{userId}, config);
+          console.log(data);
+          setLoadingChat(false);
+        
+          setSelectedChat(data);
+          
+        }catch(err){
+          toast("error fetching the chats");
+        }
+    }
+
     const toggleDropdown = () => {
       const dropdown = document.getElementById("myDropdown");
       dropdown.classList.toggle("show");
   }
-    console.log(user)
+    // console.log(user)
   
     return (
     <>
-        <div className="input-container">
+        <div className="input-container bg-green-900 p-2 cursor-pointer" onClick={()=>setOpen(!open)}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
-          <input type="text" className="search-input" placeholder="Search..." />
+          {/* <input type="text" className="search-input" placeholder="Search..." /> */}
+          <h3 className='text-white capitalize font-mono text-lg'>Search user</h3>
         </div>
 
         <h3 className='text-slate-50 font-mono text-2xl font-semibold'>Chatter-Box</h3>
@@ -58,7 +117,8 @@ export default function NavBar() {
         {showModal && <div className='modal'>
           <ProfileModal user={user} setShowModal={setShowModal} showModal={showModal}/>
         </div>}
-        
+        {/* side over */}
+        <SideOver open={open} setOpen={setOpen} handleSearch={handleSearch} setSearch={setSearch} searchResults={searchResults} accessChat={accessChat} />
         
     </>
   )

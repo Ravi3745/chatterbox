@@ -70,22 +70,25 @@ const authUser = asyncHandler(async(req,res)=>{
         throw new Error('password not match something went wrong')
     }
 });
-// /user?search=ravi
-const allUsers = asyncHandler(async (req,res)=>{
-    const keyword = req.query.search?
-   { $or:[
-        {name:{$regex: req.query.search,$options: "i"}},
-        {email:{$regex: req.query.search,$options: "i"}}
-    ]}:{}
-
+// /user?search=ravi password is alsogetting send with res stop this
+const allUsers = asyncHandler(async (req, res) => {
+    console.log(req.body);
+    const keyword = req.query.search ? {
+        $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } }
+        ]
+    } : {};
 
     // finding user other than present user who is authorized
-    const users = await User.find(keyword).find({_id:{$ne:req.user._id}});
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+
+    // Send users array as a response
     res.send(users);
 
-    console.log(keyword)
-    res.send(keyword);
-})
+    // Log the keyword for debugging
+    // console.log(keyword);
+});
 
 
 module.exports = {registerUser,authUser, allUsers};

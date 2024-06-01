@@ -8,6 +8,8 @@ import ChatBox from '../components/ChatBox';
 export default function ChatPage() {
     const { user } = ChatState();
 
+    const [fetchAgain, setFetchAgain] = useState(false);
+
     return (
         <div className="grid-container">
             <div className="navbar">
@@ -16,11 +18,11 @@ export default function ChatPage() {
 
            
                 <div className="chats-section">
-                    {user && <ChatsSection />}
+                    {user && <ChatsSection fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
                 </div>
 
                 <div className="chat-box">
-                    {user && <ChatBox />}
+                    {user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
                 </div>
             
         </div>

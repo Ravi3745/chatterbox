@@ -5,6 +5,8 @@ const { User } = require("../models/userSchema");
 
 
 const accessChat = expressAsyncHandler(async (req, res) => {
+    
+    
     const { userId } = req.body
     console.log(userId, "in chat access controller");
     if (!userId) {
