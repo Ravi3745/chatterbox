@@ -5,6 +5,7 @@ const { chats } = require("./data/data");
 const connectDB = require("./config/db");
 const userRoutes = require('./Routes/userRoutes');
 const chatRoutes = require('./Routes/chatRoutes');
+const messageRoutes =require('./Routes/messageRoutes');
 const {errorHandler,notFound} = require('./middleware.js/errorMiddleware');
 const app = express();
 // node --env-file .env ./backend/server.js use this command for latest veresion of node
@@ -24,6 +25,8 @@ app.get('/',(req,res)=>{
 
 app.use('/user',userRoutes);
 app.use('/chat',chatRoutes);
+app.use('/message',messageRoutes);
+
 app.use(notFound);
 app.use(errorHandler)
 app.listen(PORT,()=>{

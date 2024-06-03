@@ -16,15 +16,13 @@ export default function ChatPage() {
                 {user && <NavBar />}
             </div>
 
-           
-                <div className="chats-section">
-                    {user && <ChatsSection fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
-                </div>
+            <div className="chats-section-wrapper">
+                {user && <ChatsSection fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+            </div>
 
-                <div className="chat-box">
-                    {user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
-                </div>
-            
+            <div className="chat-box">
+                {user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
+            </div>
         </div>
     );
 }

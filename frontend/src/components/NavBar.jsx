@@ -89,7 +89,7 @@ export default function NavBar() {
   
     return (
     <>
-        <div className="input-container bg-green-900 p-2 cursor-pointer" onClick={()=>setOpen(!open)}>
+        <div className="input-container bg-blue-900 p-2 cursor-pointer" onClick={()=>setOpen(!open)}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
           {/* <input type="text" className="search-input" placeholder="Search..." /> */}
           <h3 className='text-white capitalize font-mono text-lg'>Search user</h3>

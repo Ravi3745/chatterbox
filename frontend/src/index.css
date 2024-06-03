@@ -10,11 +10,11 @@
 body{
   width: 100%;
   /* background-color: rgb(15, 218, 218); */
-  
+  /* overflow: hidden; */
 }
 #root{
   width: 100%;
-  
+  /* overflow: hidden; */
 }
 
 .grid-container {
@@ -28,7 +28,7 @@ body{
 .navbar {
   grid-row: 1; 
   grid-column: 1 / -1;
-  background-color: rgb(7, 46, 6) ; 
+  background-color: rgb(16, 114, 125) ; 
   height: 60px;
   display: flex;
   align-items: center;
@@ -117,3 +117,20 @@ body{
   transform: translate(-50%, -50%); 
   z-index: 100;
 }
+
+
+/* scroll bar */
+.chats-section-wrapper {
+  overflow-y: auto;
+  max-height: calc(100vh - 60px); 
+}
+
+.chatlist-overflow{
+  overflow-y: auto;
+  max-height: calc(100vh - 60px); /* Subtract the height of navbar */
+  
+}
+
+
+
+
