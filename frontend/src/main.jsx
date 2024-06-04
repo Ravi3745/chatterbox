@@ -9,13 +9,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   
-  <ChatContextProvider>
-    <BrowserRouter>
+  <BrowserRouter>
+    <ChatContextProvider>
     
-    <App/>
-   <ToastContainer />
-  </BrowserRouter>   
-  </ChatContextProvider>
+      
+      <App/>
+    <ToastContainer />
+    
+    </ChatContextProvider>
+  </BrowserRouter>  
     
   
 )

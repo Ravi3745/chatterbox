@@ -5,13 +5,13 @@ import { useState } from "react";
 import Spinner from '../../utilities/Spinner';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
 
   const [loginData,setLoginData] = useState({email:"",password:""});
   const [showPassword,setShowPassword]= useState(false);
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const navigate =useNavigate();
   function togglePasswordVisibility(){
     setShowPassword(!showPassword);
   }
@@ -34,7 +34,7 @@ const Login = () => {
       // storing response in localstorage of browser
       localStorage.setItem("userInfo",JSON.stringify(data));
       setLoading(false);
-      history.push('/chats');
+      navigate('/chats');
 
     } catch (error) {
       toast("Something went wrong");

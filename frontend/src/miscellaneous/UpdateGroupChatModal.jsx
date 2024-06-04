@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Spinner from '../utilities/Spinner';
 import SearchList from '../components/SearchList';
 
-export default function UpdateGroupChatModal({ fetchAgain, setFetchAgain, setShowUpdateModal }) {
+export default function UpdateGroupChatModal({ fetchAgain, setFetchAgain, setShowUpdateModal, fetchMessages }) {
     const [groupChatName, setGroupChatName] = useState('');
     const [selectedUser, setSelectedUser] = useState([]);
     const [search, setSearch] = useState('');
@@ -85,6 +85,7 @@ export default function UpdateGroupChatModal({ fetchAgain, setFetchAgain, setSho
 
             setSelectedChat(data);
             setFetchAgain(!fetchAgain);
+            fetchMessages();
             setLoading(false);
 
         } catch (error) {

@@ -3,8 +3,9 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from "react";
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+
 import Spinner from '../../utilities/Spinner';
 
 const Signup = () => {
@@ -13,6 +14,8 @@ const Signup = () => {
   const [showPassword,setShowPassword]= useState(false);
   const [loading, setLoading] = useState(false); 
   
+  const navigate = useNavigate();
+
   async function handleSubmit  (e){
     e.preventDefault();
     if(signUpData.password!==signUpData.confirmPassword){
@@ -34,7 +37,7 @@ const Signup = () => {
       toast("Signup successful");
       localStorage.setItem("userInfo",JSON.stringify(data));
       setLoading(false);
-      history.push('./chats');
+      navigate('./login');
     } catch (error) {
       toast(error);
       setLoading(false);

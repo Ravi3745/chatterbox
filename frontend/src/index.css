@@ -123,14 +123,24 @@ body{
 .chats-section-wrapper {
   overflow-y: auto;
   max-height: calc(100vh - 60px); 
+  scrollbar-width: none;
 }
 
 .chatlist-overflow{
   overflow-y: auto;
   max-height: calc(100vh - 60px); /* Subtract the height of navbar */
-  
+  scrollbar-width:none;
 }
 
+
+/* messages */
+
+.messages{
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
 
 
 

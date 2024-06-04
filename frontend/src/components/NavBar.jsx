@@ -4,7 +4,7 @@ import { faMagnifyingGlass, faBell, faEllipsisVertical, faUser, faArrowRightFrom
 import ProfileModal from '../miscellaneous/ProfileModal';
 import React, { useState } from 'react'
 import { ChatState } from '../context/ChatContextProvider';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useNavigate } from 'react-router-dom';
 import SideOver from './SideOver';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -18,13 +18,13 @@ export default function NavBar() {
     
 
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const {user, setSelectedChat, chats, setChats} = ChatState();
 
     const signOutHandler=()=>{
       localStorage.removeItem("userInfo");
-      history.push('/');
+      navigate('/');
     }
 
 

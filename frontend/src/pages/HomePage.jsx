@@ -3,16 +3,16 @@ import Login from '../components/Authentication/Login';
 import Signup from '../components/Authentication/Signup';
 import '../App.css';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useNavigate } from 'react-router-dom';
 export default function HomePage() {
   const [isLoginPage, setIsLoginPage] = useState(true);
-  
-  const history = useHistory();
+  const navigate = useNavigate();
+ 
 // if user already login push redirect him to the chats page
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    if(user) history.push('/chats');
-  },[history])
+    if(user) navigate('/chats');
+  },[navigate])
   return (
     <>
     <div className='flex flex-col items-center justify-center '>

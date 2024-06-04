@@ -1,19 +1,14 @@
-import { Route } from "react-router-dom/cjs/react-router-dom.min"
-import HomePage from "./pages/HomePage"
-import ChatPage from "./pages/ChatPage"
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ChatPage from "./pages/ChatPage";
 
 function App() {
-
-
   return (
-    <>
-    
-      <Route path='/' component={HomePage} exact/>
-      <Route path='/chats' component={ChatPage} />
-  
-      
-    </>
-  )
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+      <Route path='/chats' element={<ChatPage />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
