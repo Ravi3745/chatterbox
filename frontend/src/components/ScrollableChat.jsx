@@ -9,7 +9,7 @@ function ScrollableChat({ messages }) {
     return (
         <ScrollableFeed>
             {messages && messages.map((m, index) => (
-                <div style={{ display: 'flex', textAlign:'center',alignItems:'center' }} key={m._id}>
+                <div style={{ display: 'flex', textAlign:'center', alignItems:'center' }} key={m._id}>
                     {
                         shouldShowSenderImage(messages, m, index, user._id) && (
                             <div className='mr-2'>
@@ -19,9 +19,10 @@ function ScrollableChat({ messages }) {
                     }
                     <span className='' style={{
                         backgroundColor: `${m.sender._id === user._id ? 'gray' : 'green'}`,
-                        borderRadius: '20px', padding: '5px 15px', maxWidth: '75%',
+                        borderRadius: '20px', padding: '5px 15px', maxWidth: '300px',
                         marginLeft: isSameSenderMargin(messages, m, index, user._id),
-                        marginTop: isSameUser(messages, m, index) ? 3 : 10
+                        marginTop: isSameUser(messages, m, index) ? 3 : 10,
+                        wordWrap: 'break-word' // Add this CSS property
                     }}>
                         {m.content}
                     </span>

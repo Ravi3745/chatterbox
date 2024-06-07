@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import SideOver from './SideOver';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { getSender } from '../config/chatLogics';
+import NotificationBadge from '../miscellaneous/NotificationBadge';
+
 export default function NavBar() {
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -20,7 +23,7 @@ export default function NavBar() {
 
     const navigate = useNavigate();
 
-    const {user, setSelectedChat, chats, setChats} = ChatState();
+    const {user, setSelectedChat, chats, setChats, notification, setNotification} = ChatState();
 
     const signOutHandler=()=>{
       localStorage.removeItem("userInfo");
@@ -85,6 +88,11 @@ export default function NavBar() {
       const dropdown = document.getElementById("myDropdown");
       dropdown.classList.toggle("show");
   }
+
+  const toggleNotiDropdown = () => {
+    const dropdown = document.getElementById("notification-content");
+    dropdown.classList.toggle("show");
+}
     // console.log(user)
   
     return (
@@ -99,8 +107,24 @@ export default function NavBar() {
       
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center',  }}>
             <div style={{ marginRight: '10px' }}>
-              <FontAwesomeIcon style={{cursor:'pointer'}} icon={faBell} className='text-2xl text-white mx-3' />
+              <NotificationBadge count={notification.length} />
+              <FontAwesomeIcon style={{cursor:'pointer'}} icon={faBell} className='text-2xl text-white mx-3' onClick={toggleNotiDropdown} />
             </div>
+
+            {/* notification drop down */}
+            <div id="notification-content" className="dropdown-content">
+                    {!notification.length && "No New Messages"}
+                    {notification.map((notif) => (
+                        <span className='m-4  bottom-2 cursor-pointer' key={notif._id} onClick={()=>{
+                          setSelectedChat(notif.chat);
+                          setNotification(notification.filter((n)=>n!==notif));
+                          toggleNotiDropdown();
+                        }}>
+                            {notif.chat.isGroupChat ? `New Message in ${notif.chat.chatName}` : `New Message from ${getSender(user, notif.chat.users)}`}
+                        </span>
+                    ))}
+                </div>
+
         <div>
             <img className="inline-block h-12 w-12 rounded-full ring-2 ring-white" src={user.pic} alt={user.name} />
          </div>

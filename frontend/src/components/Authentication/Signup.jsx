@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Spinner from '../../utilities/Spinner';
 
 const Signup = () => {
-  const history = useHistory();
+  
   const [signUpData,setSignUpData] = useState({name:"",email:"",password:"",confirmPassword:"",pic:""})
   const [showPassword,setShowPassword]= useState(false);
   const [loading, setLoading] = useState(false); 
@@ -37,7 +37,7 @@ const Signup = () => {
       toast("Signup successful");
       localStorage.setItem("userInfo",JSON.stringify(data));
       setLoading(false);
-      navigate('./login');
+      navigate('/login');
     } catch (error) {
       toast(error);
       setLoading(false);
