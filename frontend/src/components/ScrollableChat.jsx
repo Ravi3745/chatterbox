@@ -12,7 +12,7 @@ function ScrollableChat({ messages }) {
                 <div style={{ display: 'flex', textAlign:'center', alignItems:'center' }} key={m._id}>
                     {
                         shouldShowSenderImage(messages, m, index, user._id) && (
-                            <div className='mr-2'>
+                            <div className='mr-2 p-1'>
                                 <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white" src={m.sender.pic} alt={m.sender.name} />
                             </div>
                         )

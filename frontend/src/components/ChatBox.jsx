@@ -6,7 +6,7 @@ export default function ChatBox({fetchAgain, setFetchAgain}) {
   const {selectedChat} = ChatState();
   
   return (
-    <div className='w-full bg-gray-300 h-full'>
+    <div className='w-full  h-full ' >
 
       <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
     </div>

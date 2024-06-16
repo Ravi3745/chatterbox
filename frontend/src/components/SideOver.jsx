@@ -4,9 +4,10 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import SearchList from '../components/SearchList'
+import Spinner from '../utilities/Spinner';
 
 
-export default function SideOver({ open, setOpen, handleSearch, setSearch, searchResults, accessChat}) {
+export default function SideOver({ open, setOpen, handleSearch, setSearch, searchResults, accessChat, loading}) {
 
 
   console.log(searchResults)
@@ -24,7 +25,7 @@ export default function SideOver({ open, setOpen, handleSearch, setSearch, searc
           <div className="fixed inset-0 transition-opacity" />
         </TransitionChild>
 
-        <div className="fixed inset-0 overflow-hidden">
+        <div className="fixed inset-0 overflow-auto">
           <div className="absolute inset-0 overflow-hidden">
             <div className="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10">
               <TransitionChild
@@ -56,20 +57,24 @@ export default function SideOver({ open, setOpen, handleSearch, setSearch, searc
                       </button>
                     </div>
                   </TransitionChild>
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white py-6">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-slate-200 py-6">
                     <div className="px-4 sm:px-6">
-                      <DialogTitle className="text-base font-semibold leading-6 text-gray-900">Search your Buddy...</DialogTitle>
+                      <DialogTitle className="text-xl font-semibold leading-6 text-gray-900">Search your Buddy...</DialogTitle>
                     </div>
                    
                    
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6">{/* Your content */}
-                    <div className="input-container bottom-2-black">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" style={{color:'black'}} onClick={handleSearch}/>
-                        <input type="text" className="search-input" placeholder="Search..." onChange={(e)=>setSearch(e.target.value)} />
+                    <div className="relative mt-6 flex-1 px-4 sm:px-6 ">{/* Your content */}
+                    
+                    <div className="input-container mb-5 border-b-4 p-4 border-zinc-600 ">
+                        
+                        <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" style={{color:'black'}} />
+                        <input type="text" className="search-input" placeholder="Search..." onChange={(e)=>{setSearch(e.target.value); handleSearch()}} />
+                        
+                        
                     </div>
 
                     {/* search result  */}
-
+                    {loading && 'Loading...'}
                     {searchResults &&
                      <SearchList searchResults={searchResults} accessChat={accessChat} groupModal={false}/>
                      

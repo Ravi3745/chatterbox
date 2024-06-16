@@ -47,13 +47,14 @@ const registerUser = asyncHandler(async (req,res)=>{
 
 });
 
-
+// login user
 const authUser = asyncHandler(async(req,res)=>{
     const {email,password} = req.body;
-
+    
     const user = await User.findOne({email});
+    console.log(user,'login user')
     if(!user){
-        throw new Error("user not found please sign in");
+        return res.status(401).json({ message: "User not found, please sign up" });
         
     }
     const validPassword = await bcryptjs.compare(password,user.password);
@@ -67,7 +68,7 @@ const authUser = asyncHandler(async(req,res)=>{
             token:generateToken(user._id)
         });
     }else{
-        throw new Error('password not match something went wrong')
+        return res.status(401).json({ message: 'Incorrect password, please try again' });
     }
 });
 // /user?search=ravi password is alsogetting send with res stop this

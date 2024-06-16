@@ -59,7 +59,11 @@ export default function GroupChatModal({ setGroupModal}) {
             toast("new group chat created")
             
         } catch (error) {
-            toast('something went wrong')
+            if (error.response && error.response.data) {
+              toast.error(error.response.data);
+          } else {
+              toast.error('Something went wrong');
+          }
         }
     }
 
@@ -81,9 +85,9 @@ export default function GroupChatModal({ setGroupModal}) {
     }
 
     return (
-    <div className='text-black'>
+    <div className='text-black overflow-y'>
         
-         <div className="flex min-h-full flex-1 flex-col bg-slate-200 rounded-sm w-96 justify-center px-6 py-12 lg:px-8">
+         <div className="flex min-h-full flex-1 flex-col bg-zinc-300 rounded-sm w-96 justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
          
           <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -124,7 +128,7 @@ export default function GroupChatModal({ setGroupModal}) {
             {/* selected user */}
             <div className="flex flex-wrap">
             {selectedUser.map(user => (
-            <span className='bg-purple-700 rounded-md m-1 px-2 text-white' key={user._id}>
+            <span className='bg-violet-900 rounded-md m-1 px-2 text-white' key={user._id}>
                 {user.name} 
                 <span className='m-1 text-red-900 font-bold text-lg cursor-pointer' onClick={() => removeFromGroup(user)}>x</span>
             </span>
@@ -140,13 +144,13 @@ export default function GroupChatModal({ setGroupModal}) {
             <div className='flex '>
               <button
                 type="submit"
-                className=" m-2 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className=" m-2 flex w-full justify-center rounded-md bg-violet-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-violet-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Create Group
               </button>
               <button
                 type="button"
-                className=" m-2 flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className=" m-2 flex w-full justify-center rounded-md bg-red-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={()=>setGroupModal(false)}
               >
                 Close
