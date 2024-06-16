@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const userRoutes = require('./Routes/userRoutes');
 const chatRoutes = require('./Routes/chatRoutes');
 const messageRoutes =require('./Routes/messageRoutes');
+const path = require('path');
 const {errorHandler,notFound} = require('./middleware.js/errorMiddleware');
 const app = express();
 // node --env-file .env ./backend/server.js use this command for latest veresion of node
@@ -19,13 +20,31 @@ app.use(cors());
 app.use(express.json());
 
 
-app.get('/',(req,res)=>{
-    res.send("hii in node")
-});
+// app.get('/',(req,res)=>{
+//     res.send("HI API RUNNING SUCCESSFULLY");
+// });
 
 app.use('/user',userRoutes);
 app.use('/chat',chatRoutes);
 app.use('/message',messageRoutes);
+
+// ----------------------Deployment---------------------
+const __dirname1 = path.resolve();
+
+if(process.env.NODE_ENV === 'production'){
+
+    app.use(express.static(path.join(__dirname1,'/frontend/dist')));
+    app.get('*',(req,res)=>{
+        res.sendFile(path.resolve(__dirname1,'frontend','dist','index.html'));
+    })
+
+}else{
+    app.get('/',(req,res)=>{
+        res.send("HI API RUNNING SUCCESSFULLY ");
+    });
+}
+
+// ----------------------Deplyoment---------------------
 
 app.use(notFound);
 app.use(errorHandler)
